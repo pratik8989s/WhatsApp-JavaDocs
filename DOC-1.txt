@@ -1,0 +1,2983 @@
+1-1.Student:
+=======================================================================
+package com.student1;
+
+import java.io.Serializable;
+
+public class Student implements StudentInt, Serializable {
+	
+	private int rollNo;
+	private String name;
+	private int subject1;
+	private int subject2;
+	private int subject3;
+	private int totalMarks;
+
+    public int getRollNo() {
+        return rollNo;
+    }
+
+    public void setRollNo(int rollNo) {
+        this.rollNo = rollNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSubject1() {
+        return subject1;
+    }
+
+    public void setSubject1(int subject1) {
+        this.subject1 = subject1;
+    }
+
+    public int getSubject2() {
+        return subject2;
+    }
+
+    public void setSubject2(int subject2) {
+        this.subject2 = subject2;
+    }
+
+    public int getSubject3() {
+        return subject3;
+    }
+
+    public void setSubject3(int subject3) {
+        this.subject3 = subject3;
+    }
+
+    public int getTotalMarks() {
+        return totalMarks;
+    }
+
+   
+
+	
+
+	// method is to initialise details
+	@Override
+	public void readStudInfo(int rollNo, String name, int subject1, int subject2, int subject3) {
+		this.rollNo = rollNo;
+		this.name = name;
+		this.subject1 = subject1;
+		this.subject2 = subject2;
+		this.subject3 = subject3;
+		
+
+	}
+
+	// method to print totalmarks
+	@Override
+	public void calcTotal() {
+            totalMarks=subject1+subject2+subject3;
+		System.out.println("Total marks obtained:" + this.totalMarks);
+
+	}
+
+	// method to print student details
+	@Override
+	public void printStudInfo() {
+		System.out.println("Student rollno:" + this.rollNo);
+		System.out.println("Student name:" + this.name);
+		System.out.println("Marks obtained in subject1:" + this.subject1);
+		System.out.println("Marks obtained in subject2:" + this.subject2);
+		System.out.println("Marks obtained in subject3:" + this.subject3);
+                
+
+	}
+
+    @Override
+    public String toString() {
+        return "Student{" + "rollNo=" + rollNo + ", name=" + name + ", subject1=" + subject1 + ", subject2=" + subject2 + ", subject3=" + subject3 +  '}';
+    }
+
+}
+
+ ---------------------------------------------------------------------------------------------------------------------------------------
+STUDENT INT:
+
+
+package com.student1;
+
+public interface StudentInt {
+	public void readStudInfo(int rollNo, String name, int subject1, int subject2, int subject3);
+	public void calcTotal();
+	public void printStudInfo();
+	
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.test1;
+
+import com.package1.*;
+import java.util.Scanner;
+
+/**
+ *
+ * @author techm
+ */
+public class StudentImp {
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        Student st=new Student();
+        System.out.println("enter the roll no of student");
+        st.setRollNo(s.nextInt());
+        System.out.println("enter the name of student");
+        st.setName(s.next());
+        System.out.println("Enter marks in subject1..");
+        st.setSubject1(s.nextInt());
+        System.out.println("Enter marks in subject2..");
+       st.setSubject2(s.nextInt());
+      System.out.println("Enter marks in subject3..");
+      st.setSubject3(s.nextInt());
+        st.readStudInfo(st.getRollNo(),st.getName(),st.getSubject1(),st.getSubject2(),st.getSubject3());
+        st.calcTotal(st.getSubject1(),st.getSubject2(),st.getSubject3());
+        st.printStudInfo();
+        
+       
+        
+    }
+
+ }
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+1-2.ITEM:
+================================================================================
+package item;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Scanner;
+
+public class Item  {
+   int  itemId;
+String itemName;
+
+    public Item(int itemId, String itemName) {
+        this.itemId = itemId;
+        this.itemName = itemName;
+    }
+     public void display(){
+          
+            System.out.println(itemId+"                 "+itemName);
+     }
+}
+
+
+class Thread1 implements Runnable{
+Scanner s=new Scanner(System.in);
+ArrayList<Item> a1=new ArrayList<>();
+       Item[ ] item =new Item[5];
+    @Override
+    public void run() {
+      synchronized (this) {
+          for(int i=0;i<5;i++){
+            System.out.println("Enter Itemid,ItemName of item "+i);
+            item[i] =new Item(s.nextInt(),s.next());
+            a1.add(item[i]);
+        }
+  }
+}
+}
+    class Thread2 implements Runnable{
+      Thread1 first;// To get the all details from FirstThread
+      Thread2(Thread1 ff) {
+         this.first = ff;
+}
+    public void run() {
+      synchronized (first) {
+ Iterator i = first.a1.iterator();
+System.out.println("Second thread get started to print the item details\n");
+System.out.println("The Item Details are");
+System.out.println("displaying details of item");
+          System.out.println(" ITEMID               ITEMNAME");
+          System.out.println("--------------------------------------------------");
+while (i.hasNext()) {
+Item item1 = (Item) (i.next());// type casting into the Item
+// object
+
+item1.display();// calling the display method in Item class to get the details
+			}
+       }
+     
+        }
+    
+        }
+
+class threadTest{
+    
+    public static void main(String[] args) {
+        
+        Thread1 t=new Thread1();
+        Thread t1=new Thread(t);
+        t1.start();
+        Thread2 T=new Thread2(t);
+        Thread t2=new Thread(T);
+        t2.start();
+
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------
+
+========================================================================
+
+
+2-1 BOOK & BOOKUTIL:
+
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.book;
+
+/**
+ *
+ * @author techm
+ */
+public class Book {
+public String  bookId;		
+public String   title;		
+public String   author;		
+public String category ;	
+public float price;		
+
+    public Book(String bookId, String title, String author, String category, float price) throws InvalidBookException {
+        if((bookId.length()!=4)&&(bookId.charAt(0)!='B'))
+              {   
+               throw new InvalidBookException();
+          }
+          this.bookId=bookId;
+       this.title = title;
+       this.author = author;     
+       if(category.equals("Friction")||category.equals("Science")||category.equals("Technology")||category.equals("Others")) {         
+    this.category = category;
+        }
+       else {
+             throw new InvalidBookException();
+        }
+        if(price>0){
+            this.price = price;}
+             else {
+             throw new InvalidBookException();     
+        }  
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public String getCategory() {
+        return category;
+    }
+    public float getPrice() {
+        return price;
+    }    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.book;
+import java.util.*;
+import java.util.ArrayList;
+import com.book.BookStore;
+/**
+ *
+ * @author techm
+ */
+public class BookStore {
+    ArrayList<Book> bookStore=new ArrayList<Book>(); 
+    public void addBook(Book b){
+        bookStore.add(b);
+    }
+    public void searchByTitle(String title){
+        for(int i=0;i<3;i++){
+        if(bookStore.get(i).getTitle().equals(title)){
+            System.out.println("Displaying thedetails of the book:"+title);
+            System.out.println("Book ID:"+bookStore.get(i).getBookId()+"  "+"BookName:"+bookStore.get(i).getTitle()+"  "+"Bookauthor"+bookStore.get(i).getAuthor()+"   "+"Book Category:"+bookStore.get(i).getCategory()+"  "+"Book Price:"+bookStore.get(i).getPrice());
+        } 
+        }
+    }
+
+        public void searchByAuthor(String author){
+        for(int i=0;i<3;i++){
+        if(bookStore.get(i).getAuthor().equals(author)){
+            System.out.println("Displaying the details of the book:"+author);
+            System.out.println("Book ID:"+bookStore.get(i).getBookId()+"BookName:"+bookStore.get(i).getTitle()+"Bookauthor"+bookStore.get(i).getAuthor()+"Book Category:"+bookStore.get(i).getCategory()+"Book Price:"+bookStore.get(i).getPrice());
+        }
+        else
+            System.out.println("book not found");
+             
+        }
+    }
+        public void displayAll(){
+            for(int i=0;i<3;i++){
+            System.out.println("Displaying the details of the all books");
+            System.out.println("Book ID:"+bookStore.get(i).getBookId()+"BookName:"+bookStore.get(i).getTitle()+"Bookauthor"+bookStore.get(i).getAuthor()+"Book Category:"+bookStore.get(i).getCategory()+"Book Price:"+bookStore.get(i).getPrice());
+        }
+            
+        }
+    
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.book;
+
+/**
+ *
+ * @author techm
+ */
+public class InvalidBookException extends Exception{
+    public void InvalidBookException(){
+        System.out.println("invalid book exception");
+        
+    }
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bookutil;
+import  com.book.BookStore;
+import com.book.Book;
+import com.book.InvalidBookException;
+import java.util.Scanner;
+        
+
+/**
+ *
+ * @author techm
+ */
+public class BookUtil {
+    public static void main(String[] args) throws InvalidBookException{
+        Scanner s=new Scanner(System.in);
+        System.out.println("enter the details of book1");
+        System.out.println("enter bookId,book title,book author, book cataegory,book price");
+        Book b1=new Book(s.next(),s.next(),s.next(),s.next(),s.nextFloat());
+         System.out.println("enter the details of book2");
+        System.out.println("enter bookId,book title,book author, book cataegory,book price");
+         Book b2=new Book(s.next(),s.next(),s.next(),s.next(),s.nextFloat());  
+          System.out.println("enter the details of book3");
+        System.out.println("enter bookId,book title,book author, book cataegory,book price");
+         Book b3=new Book(s.next(),s.next(),s.next(),s.next(),s.nextFloat());
+         BookStore B=new BookStore();
+         B.addBook(b1);
+         B.addBook(b2);
+         B.addBook(b3);
+         System.out.println("enter the title of the book you want to search");
+         String Title=s.next();
+         B.searchByTitle(Title);
+          System.out.println("enter the author of the book you want to search");
+          String Author=s.next();
+         B.searchByAuthor(Author);
+         B.displayAll();
+         
+         
+        
+    }
+    
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+=============================================================================================
+2-2 THREAD INTERFACE LANG:
+
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.thread;
+
+
+public class CLang implements Language,Runnable{
+
+    public void run(){
+        
+     showMessage();
+    }
+    public void showMessage(){
+        
+        System.out.println("C Programming is running");
+    }
+    
+    
+    
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.thread;
+
+/**
+ *
+ * @author techm
+ */
+public class JavaLang implements Language,Runnable{
+    String name;
+    Thread t;
+    public void run(){
+    
+     showMessage();
+    }
+
+    @Override
+    public void showMessage(){
+        
+        System.out.println("Java Programming is running");
+    }
+
+    
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+package com.thread;
+
+
+public interface Language  {
+   
+
+
+
+    
+    public void showMessage();
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.thread;
+import com.thread.*;
+import java.util.Scanner;
+
+/**
+ *
+ * @author techm
+ */
+public class TestClient {
+    public static void main(String[] args){
+        Scanner s=new Scanner(System.in);
+       JavaLang t=new JavaLang();
+      
+      CLang T=new CLang();
+      Thread t1=new Thread(t);
+      Thread t2=new Thread(T);
+     
+      System.out.println("Enter your favorite language to be run first");
+      String first;
+      first=s.next();
+      if(first.equals("Java")){
+          t1.setPriority(10);
+          System.out.println("priority set for javaLang"); 
+          t2.setPriority(1);
+           t1.start();
+            t2.start();
+             
+       
+      }
+      else if(first.equals("C")){
+          t2.setPriority(10);
+          t1.setPriority(1);
+          System.out.println("priority set for CLang"); 
+          t2.start();
+            t1.start();
+           
+      }
+      
+      System.out.println("priority of cLang thread:"+t2.getPriority()); 
+        System.out.println("priority of JavaLang thread:"+t1.getPriority()); 
+        
+    }
+    
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+========================================================================================
+3-1. VEHICLE : 
+package com.vehicle.test;
+import  com.vehicle.*;
+import java.util.Scanner;
+public class TestVehicle {
+public static void main(String args[]) {
+	
+
+	Vehicle v=new Car(1111,true,"Petrol");
+	v.ignite();
+	Scanner sc=new Scanner(System.in);
+	System.out.println("enter flag value as 1 or -1:");
+	int flag=sc.nextInt();
+	v.changeGear(flag);
+
+	sc.close();
+	Car c =(Car) v;
+	
+	c.showCarDetails();
+	v.stop();
+	c.showCarDetails();
+}
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.vehicle;
+
+public class Car extends Vehicle{
+	private static boolean powerStearing;
+	private static String fuelType;
+	
+	public Car(int vehicleNo,boolean powerStearing,String fuelType)
+	{
+			super(vehicleNo);
+			this.powerStearing=powerStearing;
+			if(fuelType=="Petrol"||fuelType=="Deisel"||fuelType=="Gas")
+				this.fuelType=fuelType;
+				else
+				System.out.println("Enter Fuel type Petrol,Deisel,Gas");
+			
+		}
+	
+	boolean getPowerStearing(){return powerStearing;}
+	String getFuelType(){return fuelType;}
+	int getVehicleNo(){return vehicleNo;}
+	String getEngineStatus(){return engineStatus;}
+	int getCurrentGear(){return currentGear;}
+	
+	public void showCarDetails(){
+			System.out.println("Vehicle No: "+vehicleNo+" Power stearing available: "+powerStearing+" FuelType :"+fuelType+" Engine Status: "+engineStatus+" Current Gear"+currentGear);
+			
+}
+	public void ignite()
+	{
+		engineStatus="on";
+		currentGear=1;
+	}
+	
+	public void stop()
+	{
+		engineStatus="off";
+		currentGear=0;
+	}
+	
+	public int changeGear(int flag)
+	{
+		if(currentGear<6&&currentGear>0)
+		if(flag==1)
+			currentGear+=1;
+		else if(flag==-1)
+			currentGear-=1;
+	return currentGear;
+	}
+	
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.vehicle;
+
+public abstract class Vehicle {
+	protected static int vehicleNo;
+	 protected static String engineStatus;
+	 protected static int currentGear;
+	 public Vehicle(int vehicleNo) {
+		 this.vehicleNo=vehicleNo;
+		}
+	 public abstract void ignite();
+	 public abstract int changeGear(int flag);
+	 public abstract void stop();
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+==================================================================================
+
+3-2. EMPLOYEE : 
+
+
+package com.employee;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Scanner;
+import java.util.*;
+
+
+
+public class Employee implements Serializable{
+  int   empId;		
+String empName;		 
+String grade	;
+
+    public int getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" + "empId=" + empId + ", empName=" + empName + ", grade=" + grade + '}';
+    }
+}
+class TestFile{
+    public static void main(String[] args) throws Exception{
+        Scanner s=new Scanner(System.in);
+        System.out.println("enter the number of employees'");
+        int n=s.nextInt();
+        Employee[] e=new Employee[n];
+  for(int i=0;i<n;i++){
+      
+  e[ i]=new Employee();
+  System.out.println("enter the employee id");
+       e[i].setEmpId(s.nextInt());
+       System.out.println("enter the employee name");
+        e[i].setEmpName(s.next());
+        System.out.println("Grades U1or U2 or  U3 or U4 or  P1 or P2");
+        System.out.println("enter the employee grade");
+       e[i].setGrade(s.next());{
+       if (e[i].getGrade().matches("U1")){
+           System.out.println("garde is U1");}
+       else if(e[i].getGrade().matches("U2")){
+           System.out.println("garde is U2");}
+        else if(e[i].getGrade().matches("U3")){
+           System.out.println("garde is U3");}
+         else if(e[i].getGrade().matches("U4")){
+           System.out.println("garde is U4");}
+       else if(e[i].getGrade().matches("P1")){
+           System.out.println("garde is P1");}
+       else if(e[i].getGrade().matches("P2")){
+           System.out.println("grade is P2");}
+  
+       else
+           throw new InvalidGradeException();
+    
+}
+
+           
+       }
+  for(int i=0;i<n;i++)
+           {
+             System.out.println ("employee id:"+e[i].getEmpId()+"employee name"+e[i].getEmpName()+"employee grade"+e[i].getGrade());
+               
+           }
+  
+  
+  File f=new File("empdetails.txt");
+  FileOutputStream fos=new FileOutputStream(f);
+  ObjectOutputStream oos=new ObjectOutputStream(fos);
+  oos.writeObject(e);
+  fos.close();
+  oos.close();
+ System.out.println("serialisation successfull");
+  FileInputStream fis=new FileInputStream(f);
+  ObjectInputStream ois=new ObjectInputStream(fis);
+  Employee E[ ]=(Employee[ ]) ois.readObject();
+  fis.close();
+   ois.close();
+  System.out.println("Deserialisation successfull");
+  for(int i=0;i<n;i++)
+          {
+            System.out.println ("employee id:"+E[i].getEmpId()+"employee name"+E[i].getEmpName()+"employee grade"+E[i].getGrade());
+               
+           }
+  
+          
+  
+  
+  
+  
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+=========================================================================================
+4-1. CUSTOMER:
+
+package com.bill;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
+public abstract class Customer{
+    int custId;
+    String custName;
+	long mobileNumber; 
+
+    public Customer(int custId, String custName, long mobileNumber) {
+        this.custId = custId;
+        this.custName = custName;
+        this.mobileNumber = mobileNumber;
+    }
+    public int getCustId() {
+        return custId;
+    }
+
+    public void setCustId(int custId) {
+        this.custId = custId;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
+
+    public long getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(long mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+       double calculateBill(int minutes){
+           return 1;
+       
+}
+}
+class PremiumCustomer extends Customer{
+    int billNo;
+    float billAmount;
+    
+    public PremiumCustomer(int custId, String custName, long  
+mobileNumber,int billNo, float billAmount) {
+        super(custId, custName, mobileNumber);
+        this.billNo=billNo;
+        this.billAmount=billAmount;
+        
+    }
+
+    public int getBillNo() {
+        return billNo;
+    }
+
+    public float getBillAmount() {
+        return billAmount;
+    }
+    
+    @Override
+    public  double calculateBill(int minutes){
+       int bill2;
+     
+         if(minutes<30){
+         bill2 = (1*minutes);}
+         else
+         bill2=(int) (0.5*minutes);
+         System.out.println("bill2:"+bill2);
+        return bill2;
+         
+     }
+}
+     class RegularCustomer extends Customer{
+         int billNo;
+    float billAmount;
+    public RegularCustomer(int custId, String custName, long  
+mobileNumber,int billNo,float billAmount) {
+        super(custId, custName, mobileNumber);
+        this.billAmount=billAmount;
+        this.billNo=billNo;
+    }
+
+   
+         @Override
+       public  double calculateBill(int minutes){
+         int bill1;
+     
+         if(minutes<30){
+         bill1 = (int)  (1.5*minutes);
+         System.out.println("bill1:"+bill1);}
+         else
+         { bill1=(int) (1*minutes);
+         System.out.println("bill1:"+bill1);}
+        return bill1;
+         
+     }
+     }
+        
+        class TestClient{
+            public static void main(String[] args){
+                Scanner s=new Scanner(System.in);
+                System.out.println("Enter the values of Regular Customer");
+                RegularCustomer m=new RegularCustomer(s.nextInt(),s.next 
+(),s.nextLong(),s.nextInt(),s.nextFloat());
+                System.out.println("Enter the values of premium Customer");
+               PremiumCustomer n=new PremiumCustomer(s.nextInt(),s.next 
+(),s.nextLong(),s.nextInt(),s.nextFloat());
+               m.calculateBill(20);
+               n.calculateBill(80);
+               Customer[] c=new Customer[2];
+                ArrayList<Customer> a1=new ArrayList<>();
+               a1.add(m);
+               a1.add(n);
+               System.out.println("contents of a1:");
+               Iterator<Customer> itr=a1.iterator();
+               while(itr.hasNext()){
+               Customer element=itr.next();
+               System.out.print(element+"");
+            }
+              
+             }
+        }
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package customer;
+
+/**
+ *
+ * @author techm
+ */
+import java.util.*;
+public class TestClient {
+    
+    public static void main(String args[])
+    {
+         Scanner in = new Scanner(System.in);
+         Customer[] c = new Customer[2];
+         System.out.println("enter premium customer details: custid, custname, mobile no, bill no, bill amount");
+         c[0] = new PremiumCustomer(in.nextInt(),in.next(),in.nextLong(),in.nextInt(),in.nextFloat());
+         System.out.println("enter regular customer details: custid, custname, mobile no, bill no, bill amount");
+         c[1] = new RegularCustomer(in.nextInt(),in.next(),in.nextLong(),in.nextInt(),in.nextFloat());
+         double bill = c[0].calculateBill(45)+c[1].calculateBill(15);
+         System.out.println("Total bill"+bill);
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+=======================================================================================================
+4-2. GIVE ME FIVE:
+package four;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+
+
+
+public class GiveMeFive {
+
+	public static void main(String args[])throws IOException,NumberNotPresent{
+	try{
+	if(args.length!=5)
+		throw new NumberNotPresent();
+	}
+	catch(NumberNotPresent NNP)
+	{
+		System.out.println(NNP);
+		}
+	
+	try{
+		FileWriter fw=new FileWriter("C://NumberFile.txt",true);
+		File f1=new File("C://NumberFile.txt");
+		if(!f1.exists())
+		{
+			
+			PrintWriter pw = new PrintWriter(fw);
+            for(int i=0;i<5;i++)
+            {  pw.write(args[i]);}
+
+            pw.close(); 
+	           
+		}
+		else
+		{
+			
+            PrintWriter pw = new PrintWriter(fw);
+            for(int i=0;i<5;i++)
+            {  pw.append(args[i]);}
+
+            pw.close();
+		}
+		FileReader fr=new FileReader("C://NumberFile.txt");
+		int i;
+		while((i=fr.read())!=-1)
+		{
+		System.out.print((char)i);
+		
+		}
+		fr.close();
+	}
+	
+	catch(IOException ioe){
+		System.out.println(ioe);}
+	}
+	}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package four;
+
+public class NumberNotPresent extends Exception {
+	
+	public String toString(){
+		return "5 Numbers are not present";
+		}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+==========================================================================================
+5-1. ABSTRACT EMPLOYEE AND TECHNICAL
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package employee;
+
+/**
+ *
+ * @author MSLCELTP1784
+ */
+public class DateOfJoin {
+    public int day;
+    public int month;
+    public int year;
+    
+    public DateOfJoin(int day,int month,int year)
+    {
+    this.day=day;
+    this.month=month;
+    this.year=year;
+    }
+    public void showDate()
+    {
+    System.out.println("day:"+day+"month:"+month+"year:"+year);
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package employee;
+
+/**
+ *
+ * @author MSLCELTP1784
+ */
+public  abstract class Employee {
+     public int empId;
+     public String empName;
+     public double basicSal;
+     //public DateOfJoin doj;
+     public Employee(int empId,String empName,double basicSal)
+     {
+         this.basicSal = basicSal;
+         this.empId = empId;
+         this.empName = empName;
+     }
+    
+     abstract public void calSal();
+     public void showDetails()
+     {
+     System.out.println("empId:"+empId);
+     System.out.println("empname:"+empName);
+     System.out.println("basicsal:"+basicSal);
+     }
+    
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package employee;
+
+/**
+ *
+ * @author MSLCELTP1784
+ */
+public class Operation extends Employee {
+     public String jobDesc;
+    public String grade;
+
+    public Operation(int empId,String empName,double basicSal,String jobDesc, String grade)
+    {
+        super(empId,empName,basicSal);
+        this.jobDesc = jobDesc;
+        this.grade = grade;
+    }
+   
+ public void showDetails()
+    {
+System.out.println("empId:"+empId+"empName:"+empName+"basicsal:"+basicSal);
+    System.out.println("jobDesc:"+jobDesc+"'grade:"+grade);
+    }
+    public void calSal()
+    {  
+float bonus=(float) (0.05*basicSal);
+    System.out.println("bonus:"+bonus);
+    float totalIncome=(float) (basicSal+bonus);
+    System.out.println("totalIncome:"+totalIncome);
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package employee;
+
+/**
+ *
+ * @author MSLCELTP1784
+ */
+public class Technical extends Employee {
+    String jobDesc;
+    String grade;
+    public Technical(int empId,String empName,double basicSal,String jobDesc,String grade)
+    {
+         super(empId,empName,basicSal);
+         this.grade=grade;
+         this.jobDesc=jobDesc;
+    }
+    public void showDetails()
+    {
+        System.out.println("empId:"+empId+"empName:"+empName+"basicsal:"+basicSal);
+    System.out.println("jobDesc:"+jobDesc+"'grade:"+grade);
+    }
+    public void calSal()
+    {    float bonus=(float) (0.1*basicSal);
+    System.out.println("bonus:"+bonus);
+    float totalIncome=(float) (basicSal+bonus);
+    System.out.println("totalIncome:"+totalIncome);
+    }
+    }
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package testemployee;
+import employee.DateOfJoin;
+import employee.Employee;
+import employee.Operation;
+import employee.Technical;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
+/**
+ *
+ * @author MSLCELTP1784
+ */
+public class TestEmployee {
+    public static void main(String[] b)
+    {
+        int empId;
+        String empName;
+        double basicSal;
+        String jobDesc;
+        String grade;
+        int[] a = new int[3];
+        Scanner sc=new Scanner(System.in);
+        Employee arr[]=new Employee[2];
+        System.out.println("enter the details of operational employee");
+        
+        empId = sc.nextInt();
+        empName = sc.next();
+        basicSal = sc.nextDouble();
+        jobDesc = sc.next();
+        grade = sc.next();
+        System.out.println("enter doj of operation");
+        for(int i=0;i<3;i++)
+        {
+            a[i] = sc.nextInt();
+        }
+        DateOfJoin doj = new DateOfJoin(a[0],a[1],a[2]);
+        doj.showDate();
+        arr[0] = new Operation(empId,empName,basicSal,jobDesc,grade);
+        arr[0].showDetails();
+        arr[0].calSal();
+        System.out.println("'enter the details of technical employee");
+         empId = sc.nextInt();
+        empName = sc.next();
+        basicSal = sc.nextDouble();
+        jobDesc = sc.next();
+        grade = sc.next();
+        System.out.println("enter doj of operation");
+        for(int i=0;i<3;i++)
+        {
+            a[i] = sc.nextInt();
+        }
+        doj.day = a[0];
+        doj.month = a[1];
+        doj.year = a[2];
+        doj.showDate();
+        arr[1] = new Technical(empId,empName,basicSal,jobDesc,grade);
+        arr[1].showDetails();
+        arr[1].calSal();
+       
+    }
+    }
+-------------------------------------------------------------------------------------------------------------------------------------------
+===============================================================================================
+6-1. BIG BAZAR
+
+package com.store.test;
+import com.store.*;
+import java.util.Scanner;
+
+import com.store.InvalidOrderException;
+
+public class TestClient{
+
+	
+	public static void main(String[] args) throws InvalidOrderException {
+		
+		Scanner sc = new Scanner(System.in);
+	int orderId = (int) (Math.random() * 10000);
+	  System.out.println("please enter your name");
+	  String customerName = sc.next();
+	  float orderAmount = 0;
+	  System.out.println("please enter the type of order");
+	  String paymentOption = sc.next();
+	  
+	  Order od = new Order(orderId,customerName,orderAmount,paymentOption);
+	  
+	  OrderServiceUtil osc = new OrderServiceUtil(od);
+	  osc.addOrder(od);
+	  osc.searchOrder(orderId);
+	  osc.findTotal();
+	 boolean value = osc.validate();
+	  
+	  
+	  
+		
+
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+package com.store;
+
+
+ public class InvalidOrderException extends Exception  {
+	
+   InvalidOrderException(String s)
+  {
+	    super(s);
+	
+  }
+	
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------
+package com.store;
+
+public class Order {
+	
+	 private int orderId;
+	 private String customerName;
+	 private float orderAmount;
+	 private String paymentOption;
+	
+	 public Order(int orderId,String customerName,float orderAmount,String paymentOption) 
+	 {
+	   
+		 this.customerName=customerName;
+		 this.orderId=orderId;
+		 this.paymentOption=paymentOption;
+		 this.orderId=orderId;
+		  
+	 }
+	 
+	 
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+
+	public void setOrderAmount(float orderAmount) {
+		this.orderAmount = orderAmount;
+	}
+
+
+	public void setPaymentOption(String paymentOption) {
+		this.paymentOption = paymentOption;
+	}
+
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	
+
+	public float getOrderAmount() {
+		return orderAmount;
+	}
+
+	
+	public String getPaymentOption() {
+		return paymentOption;
+	}
+
+	
+
+
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------
+package com.store;
+
+import java.util.TreeMap;
+
+
+public class OrderServiceUtil {
+	
+	
+	Order order;
+    
+	 public OrderServiceUtil(Order order) {
+		super();
+		this.order = order;
+	}
+
+	
+	public void addOrder(Order o1)
+	{
+		
+		TreeMap<Integer,String> tm = new TreeMap<Integer,String>();
+		tm.put(o1.getOrderId(),o1.getCustomerName());
+		System.out.println("your order has been added ...");
+	}
+	
+	public Order searchOrder(int OrderId)
+	{
+		System.out.println("your ordered items has been found ..");
+		return order;
+	}
+	
+	public void findTotal()
+	{
+		order.setOrderAmount((int) (Math.random() * 100));
+		System.out.println("your bill amount is ....");
+		System.out.println(order.getOrderAmount());
+		
+	}
+
+	public boolean validate() throws InvalidOrderException
+	 {  
+		
+		
+		
+		  if(order.getOrderAmount()<100) throw new InvalidOrderException("amount should be greater than 100");
+		  
+			  
+			  return false;
+		  
+		  
+		  /*if(order.getPaymentOption() =="COD" || order.getPaymentOption() =="InternetBanking") throw new InvalidOrderException("sorry COD is not allowed ..");
+		  
+			  return false;
+		*/
+		
+		  
+		 
+		 
+			 
+		
+		  }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------
+===============================================================================
+6-2. EMPLOYEE & STORE EMPLOYEE
+
+package second;
+
+import java.io.Serializable;
+
+public class Employee implements Serializable {
+	
+	int	empId		;
+	String empName; 	
+	int deptNo;
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+	public int getDeptNo() {
+		return deptNo;
+	}
+	public void setDeptNo(int deptNo) {
+		this.deptNo = deptNo;
+	}
+	}
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+package second;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Scanner;
+
+
+public class StoreEmployee {
+
+	
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+	
+		System.out.println("enter the details of the employee ");
+		System.out.println("enter the employeeId");
+		Scanner sc = new Scanner(System.in);
+		int empId = sc.nextInt();
+		System.out.println("enter the employee name ");
+		String empName = sc.next(); 
+		System.out.println("enter the department_number");
+		int deptNo = sc.nextInt();
+		Employee emp = new Employee();
+		emp.setDeptNo(deptNo);
+		emp.setEmpId(empId);
+		emp.setEmpName(empName);
+		
+		FileOutputStream fos = new FileOutputStream("employee.txt "); 
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(emp);
+		System.out.println("serialization done..");
+		FileInputStream fis = new FileInputStream(args[0]);
+
+		ObjectInputStream ois = new ObjectInputStream(fis);
+
+	  emp =   (Employee) ois.readObject();
+      
+	 System.out.println(emp.getDeptNo());
+	}
+
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+============================================================================================
+7-1. BANK AND BANK UTIL: 
+	
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bank;
+import com.bank.InvalidInputException1;
+
+/**
+ *
+ * @author techm
+ */
+public class Account {
+    String accountNumber;
+    double accountBalance;
+    String chequeBookStatus;
+
+    public Account(String accountNumber, double accountBalance, String chequeBookStatus) {
+        this.accountNumber = accountNumber;
+        this.accountBalance = accountBalance;
+        this.chequeBookStatus = chequeBookStatus;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) throws InvalidInputException1 
+    { 
+        if(accountNumber.substring(0, 4).equals("ACC"))
+        this.accountNumber = accountNumber;
+    
+    else
+    throw new InvalidInputException1();
+    }
+    public double getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(double accountBalance) throws InvalidInputException1 {
+        if(accountBalance>1000){
+        this.accountBalance = accountBalance;}
+         else
+    throw new InvalidInputException1();
+    }
+    
+    public String getChequeBookStatus() {
+        return chequeBookStatus;
+    }
+
+    public void setChequeBookStatus(String chequeBookStatus) throws InvalidInputException1 {
+        if(chequeBookStatus.equals("YES")||chequeBookStatus.equals("NO")){
+        this.chequeBookStatus = chequeBookStatus;
+    }else 
+            throw new InvalidInputException1();
+    
+    
+   
+    
+}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bank;
+
+import java.util.Iterator;
+import java.util.TreeSet;
+
+/**
+ *
+ * @author techm
+ */
+public class Customer {
+    
+  int  custNo;			
+String custName;		
+int custPhone;		
+TreeSet<Account> account=new TreeSet<Account>();	
+
+    public Customer(int custNo, String custName, int custPhone) {
+        this.custNo = custNo;
+        this.custName = custName;
+        this.custPhone = custPhone;
+    }
+public void addNewAccount (Account OB) {
+    account.add(OB);
+}
+
+    public TreeSet getAccountList ( ) {
+        Iterator<Account>itr=account.iterator();
+    while(itr.hasNext()){
+    Account acc=itr.next();
+    System.out.println(acc);
+    }
+        return account;
+    
+}
+    public void printBal(Account al) {
+         Iterator<Account>itr=account.iterator();
+    while(itr.hasNext()){
+    Account acc=itr.next();
+    System.out.println(acc);
+   System.out.println(account);
+        
+    }
+}
+}
+------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bank;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+
+
+/**
+ *
+ * @author techm
+ */
+public class InvalidInputException1 extends Exception {
+
+    public InvalidInputException1() {
+        System.out.println("please enter correct data");
+    }
+    
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.bankutil;
+
+import com.bank.Account;
+import com.bank.Customer;
+import java.util.Scanner;
+
+/**
+ *
+ * @author techm
+ */
+public class BankUtil {
+    public static void main(String[] args){
+        Scanner s=new Scanner(System.in);
+          System.out.println("enter the details of customer");
+        Customer c=new Customer(s.nextInt(),s.next(),s.nextInt());
+        System.out.println("enter the details of account1");
+        Account  a1 =new Account(s.next(),s.nextDouble(),s.next());
+          System.out.println("enter the details of account2");
+        Account  a2 =new Account(s.next(),s.nextDouble(),s.next());
+        c.addNewAccount(a1);
+        c.addNewAccount(a2);
+        c.getAccountList();
+        c.printBal(a1);
+        
+    }
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+===================================================================================================
+8-1 FLAT : 
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+public class Flat {
+    
+    private int flatId;
+  private String flatType;			
+   private double flatCost;                                 
+
+    public Flat(int flatId, String flatType, double flatCost) {
+        this.flatId = flatId;
+        this.flatType = flatType;
+        this.flatCost = flatCost;
+    }
+
+    public int getFlatId() {
+        return flatId;
+    }
+
+    public String getFlatType() {
+        return flatType;
+    }
+
+    public double getFlatCost() {
+        return flatCost;
+    }
+
+    public void setFlatId(int flatId) {
+        this.flatId = flatId;
+    }
+
+    public void setFlatType(String flatType) {
+        if (flatType.matches("1BHK")){
+        this.flatType = flatType;
+    }
+        else if (flatType.matches("2BHK")){
+        this.flatType = flatType;
+    }
+        else if (flatType.matches("3BHK")){
+        this.flatType = flatType;
+    }
+        else
+            System.out.println("InvalidInputException");
+    }
+    public void setFlatCost(double flatCost) {
+        if(flatCost>1000000){
+        this.flatCost = flatCost;
+    }
+else
+            System.out.println("InvalidInputException");
+    
+}
+}
+class Employee {
+                     int  empId;		
+	String	empName;	
+	ArrayList 	flatsSold;	
+
+    public Employee(int empId, String empName) {
+        
+        this.empId = empId;
+        this.empName = empName;
+        
+    }
+       
+    	public  double calculateIncentive (String flatType,double flatCost) {
+            double incentive;
+             if (flatType.matches("1BHK")){
+                 incentive=(0.04*flatCost);
+                  System.out.println(incentive);
+             }
+        if (flatType.matches("2BHK")){
+                 incentive=(0.06*flatCost);
+                  System.out.println(incentive);
+             }
+        if (flatType.matches("3BHK")){
+                 incentive=(0.08*flatCost);
+                  System.out.println(incentive);
+             }
+       System.out.println();
+       return 0;
+        }
+      	public void addFlat (Flat f ){ 
+           ArrayList<Flat> a=new ArrayList<>();
+           a.add(f);
+}
+	public void generateReport(int flatId,String flatType,double flatCost ){
+           System.out.println("EmpID : _________		Empname : _______"); 
+           System.out.println("Flat ID	Flat Type	Flat Cost");
+           System.out.println(flatId+"  "+ flatType +"	"+flatCost);
+            
+        }}
+class Testincentive{
+    public static void main(String[] args){
+        Scanner s=new Scanner(System.in);
+        System.out.println("Enter the details of flat");
+        Flat[] f=new Flat[2];
+        System.out.println("enter flatTypeand flatcost");
+         f[0]=new Flat(s.nextInt(),s.next(),s.nextDouble());
+        Employee e1=new Employee(s.nextInt(),s.next());
+        
+        f[0].calculateIncentive(flatType, flatCost);
+       
+        
+        
+        
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+============================================================================================================
+9-1. AIRLINE AND TEST :
+
+package com.airline;
+
+import airline.InvalidInputException;
+
+public abstract class Airlines {
+   String airId;		
+String source;	 	 
+String destination;
+
+    public Airlines(String airId, String source, String destination) throws InvalidInputException {
+        if(airId.substring(0, 7).equals("BOEING")){
+            
+        this.airId = airId;
+        }
+        else
+            throw new InvalidInputException();
+        if(!source.matches(destination)){
+            this.source = source;
+        this.destination = destination;
+            
+           
+        
+    }
+        else
+            throw new InvalidInputException(); 
+
+    }
+    
+    /**
+     *
+     * @param noOfTickets
+     */
+    public abstract  void bookTicket( int noOfTickets);
+}
+----------------------------------------------------------------------------------------------------------------------------------
+
+package com.airline;
+import airline.InvalidInputException;
+
+
+public class Domestic extends Airlines{
+     String  zonalCode; 	 
+ double ticketCost ;	
+ double totalCost;
+
+   
+    public Domestic(String airId, String source, String destination,String zonalCode) throws InvalidInputException {
+        super(airId, source, destination);
+        this.zonalCode=zonalCode;
+        
+    }   
+    
+     @Override
+    public void bookTicket(int noOfTickets) {
+        
+        if(zonalCode.equals("Z001")){
+            ticketCost=3500;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST IS:"+totalCost);}
+        else if(zonalCode.equals("Z002")){
+            ticketCost=4000;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST IS:"+totalCost);}
+        else if(zonalCode.equals("Z003")){
+            ticketCost=4500;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST IS:"+totalCost);}     
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.airline;
+
+import airline.InvalidInputException;
+
+/**
+ *
+ * @author Vraj
+ */
+public class International extends Airlines{ 
+    String countryCode;		
+double  ticketCost;	
+double totalCost;
+    public International(String airId, String source, String destination,String countryCode) throws InvalidInputException {
+        super(airId, source, destination);
+        this.countryCode=countryCode;
+    }
+
+    @Override
+    public void bookTicket(int noOfTickets) {
+        
+        if(countryCode.equals("I001")){
+            ticketCost=25000;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST for international IS:"+totalCost);}
+        else if(countryCode.equals("I002")){
+            ticketCost=36000;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST for international IS:"+totalCost);}
+        else if(countryCode.equals("I003")){
+            ticketCost=38000;
+        totalCost=noOfTickets*ticketCost;
+        System.out.println("TOTALCOST for international IS:"+totalCost);}   
+    }
+
+    
+    
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.test;
+
+import com.airline.Airlines;
+import com.airline.Domestic;
+import com.airline.International;
+import airline.InvalidInputException;
+import java.util.Scanner;
+
+/**
+ *
+ * @author Vraj
+ */
+public class TestAirline {
+    public static void main(String[] args) throws InvalidInputException{
+        Scanner s=new Scanner(System.in);
+        Airlines[] a=new Airlines[2];
+        System.out.println("Enter the values of domestic airlines");
+        a[0]=new Domestic(s.next(),s.next(),s.next(),s.next());
+        System.out.println("Enter the values of international airlines");
+        a[1]=new International(s.next(),s.next(),s.next(),s.next());
+        a[0].bookTicket(2);
+        a[1].bookTicket(2);
+        
+    }
+    
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+================================================================================================
+9-2. MENU SOURCE & DESTINATION FILES:
+
+//program for copying and displaying files
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Scanner;
+
+
+class file1 implements Serializable{
+    public int empid;
+    public String ename;
+    public float sal;
+
+    public file1(int empid, String ename, float sal) {
+        this.empid = empid;
+       this.ename=ename;
+        this.sal = sal;
+    }
+
+    public int getEmpid() {
+        return empid;
+    }
+
+    public String getEname() {
+        return ename;
+    }
+
+    public float getSal() {
+        return sal;
+    }
+    
+  
+        
+        
+    }
+    
+    
+    
+    
+    
+
+public class comArg {
+    public static void  main(String[] a) throws FileNotFoundException, IOException, ClassNotFoundException{
+        //creation of file
+        file1 f=new file1(10010,"raju",200);
+        File F =new File("empdetails.txt");
+        FileOutputStream fos=new FileOutputStream("empdetails.txt");
+        ObjectOutputStream oos=new ObjectOutputStream(fos);
+        oos.writeObject(f);
+        fos.close();
+        oos.close();
+        System.out.println( "  MENU ");
+        System.out.println( "1.Display");
+        System.out.println( "2.Copy");
+        System.out.println( "3.Exit");
+        Scanner s=new Scanner(System.in);
+        System.out.println("enter your option");
+        int n=s.nextInt();
+        String filename;
+        switch(n){
+                
+            case 1:{
+        System.out.println("enter the filename to open");
+        filename=(s.next());
+        
+       FileInputStream fis=new FileInputStream(filename);
+       ObjectInputStream ois=new ObjectInputStream(fis);
+       file1 F1=(file1)ois.readObject();
+       fis.close();
+       ois.close();
+       System.out.println("emp id:"+F1.getEmpid()+"emp name:"+F1.getEname()+"emp salary:"+F1.getSal());
+       
+            break;}
+            case 2:{
+                System.out.println("enter source file");
+                String source=s.next();
+                System.out.println("enter destination file");
+                String destination=s.next();
+        File F1 =new File(destination);
+        FileOutputStream fos1=new FileOutputStream(destination);
+        ObjectOutputStream oos1=new ObjectOutputStream(fos1);
+        oos1.writeObject(f);
+        fos1.close();
+        oos1.close();
+        System.out.println("copied successfully");
+         FileInputStream fis1=new FileInputStream(destination);
+       ObjectInputStream ois1=new ObjectInputStream(fis1);
+       file1 F2=(file1)ois1.readObject();
+       fis1.close();
+       ois1.close();
+       
+       System.out.println("displaying the content of"+destination+"file");
+       System.out.println("emp id:"+F2.getEmpid()+"emp name:"+F2.getEname()+"emp salary:"+F2.getSal());
+       break;
+    }
+            case 3:
+                System.out.println("exited successfully");
+    }
+        
+            }
+
+    }
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+======================================================================================================
+10-1. CYBERCAFE:
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cybercafe;
+
+/**
+ *
+ * @author techm
+ */
+public class CyberCafe {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+    }
+    
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------
+===============================================================
+11-1. COPIER FEEDER PRESS:
+
+package com.pr;
+
+import java.util.Enumeration;
+import java.util.Vector;
+
+class Copier extends Thread {
+	private Vector v;
+	private Feeder f;
+	private Press p;
+	int count=0;
+
+	public Copier(Vector v, Feeder f) {
+		this.v = v;
+		this.f = f;
+	}
+
+	public void run() {
+		
+		synchronized (f) {
+			//System.out.println("consumer got lock");
+			try {
+				f.wait();
+				System.out.println("copier:i have printed paper"+count++);
+			} catch (InterruptedException e1) {
+				
+				e1.printStackTrace();
+			}
+			Enumeration e = v.elements();
+			while (e.hasMoreElements()) {
+				// System.out.println("the elements.." + e.nextElement());
+				count++;
+				p = (Press) e.nextElement();
+
+			}
+		}
+	}
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.pr;
+
+import java.util.Scanner;
+import java.util.Vector;
+
+/*package com.pr;
+
+ import java.util.Vector;
+
+ public class Feeder extends Thread
+ {
+ Copier c=new Copier();
+ public void place(Copier c)
+ {
+
+ System.out.println("Feeder:I have placed paper");
+ c.start();
+ }
+ }*/
+
+class Feeder extends Thread {
+	// public int sum = 1;
+	private Vector v;
+
+	Feeder(Vector v) {
+		this.v = v;
+	}
+	public void run() {
+		synchronized (this) {
+			System.out.println("Feeder:I have placed paper");
+			Scanner sc = new Scanner(System.in);
+			Vector v = new Vector();
+			v.add(v);
+			
+			System.out.println("Feeder given notification");
+			notify();
+		}
+	}
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.pr;
+
+
+
+import java.util.*;
+
+public class Press 
+{
+
+public static void main(String[] args) 
+{
+Vector v = new Vector();
+Feeder f = new Feeder(v);
+Copier c = new Copier(v,f);
+c.start();
+f.start();
+}
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------
+==================================================================================
+11-2. ORDER TESTORDER:
+
+import java.util.Scanner;
+
+
+public class Order {
+	public int orderId;
+	public String orderName;
+	public String category;
+	public double price;
+	public double tax;
+	public void acceptData(){
+		Scanner sc=new Scanner(System.in);
+		System.out.println("orderid");
+		orderId=sc.nextInt();
+		System.out.println("ordername");
+		orderName=sc.next();
+		System.out.println("price");
+		price=sc.nextDouble();
+		System.out.println("Select a category \n 1.Shipping \n 2.Air \n 3.Road");
+		category=sc.next();
+		
+	}
+	public double calTax(){
+		String c=category;
+		double tax[]=new double[3];
+		tax[0]=(price*15)/100;
+		tax[1]=(price*25)/100;
+		tax[2]=(price*8)/100;
+		switch(c){
+			case "1":System.out.println("Calculated tax for shipping:"+tax[0]);
+			return tax[0];
+		    case "2":System.out.println("Calculated tax for Air:"+tax[1]);
+		    return tax[1];
+		    case "3":System.out.println("Calculated tax for Road:"+tax[2]);
+		    return tax[2];
+		    default:System.out.println("Please enter a valid category");
+			
+		}
+		return 0;
+	}
+	public void dispOrder(){
+		//double tax=calTax();
+		
+		double Totalprice=price+calTax();
+		System.out.println("orderId  OrderName Totalprice");
+		System.out.println(orderId+"        "+orderName+"        "+Totalprice);
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+public class TestOrder {
+
+	public static void main(String[] args) {
+		Order o1=new Order();
+		Order o2=new Order();
+		o1.acceptData();
+		o1.dispOrder();
+
+	}
+
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+========================================================================================================
+14-1. EMPLOYEE EMPTEST MYTHREAD:
+
+package com.employee;
+
+public class Employee {
+	int empNo;
+	float basicPay, hra, conveyance, epf, tax;
+	
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+package com.employee;
+
+import java.util.Enumeration;
+import java.util.Scanner;
+import java.util.Vector;
+
+
+
+public class empTest {
+	public static void main(String[] args) {
+		System.out.println("Enter the No of Employees\t:");
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		Vector v=new Vector();
+		for(int i=0;i<n;i++)
+		{
+			Employee e=new Employee();
+			System.out.println("Enter Employee "+(i+1)+" Details");
+			System.out.println("Emter empNo\t:");
+			e.empNo=sc.nextInt();
+			System.out.println("Enter Basic pay, hra, conveyance, epf, tax ");
+			e.basicPay=sc.nextFloat();
+			e.hra=sc.nextFloat();
+			e.conveyance=sc.nextFloat();
+			e.epf=sc.nextFloat();
+			e.tax=sc.nextFloat();
+			v.add(e);
+		}
+		
+		Enumeration e=v.elements();
+			while (e.hasMoreElements())
+			{
+				synchronized (e) 
+				{
+					MyThread m = new MyThread((Employee) e.nextElement());
+					m.start();
+	
+				}
+			}
+		System.out.println("Main thread");
+	
+	}
+
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.employee;
+
+
+public class MyThread extends Thread{
+	Employee e;
+	static int emp_count=1;
+	MyThread(Employee e)
+	{
+		this.e=e;
+	}
+	public void run()
+	{
+		
+		
+			float NetSalary=e.basicPay+e.hra+e.conveyance-e.epf-e.tax;
+			System.out.println("NetSalary of Employee "+emp_count+" with EMP_Id "+e.empNo+" is... "+NetSalary);
+			emp_count++;
+		
+	}
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+================================================================================================
+14-2. ACCOUNT SAVING ACCOUNT:
+
+package com.account;
+
+public abstract class Account {
+	int accNo    ;  	  	
+	double currentBalance ; 	
+	String accHolder  ;	   
+	String address;
+	public Account(int accNo, double currentBalance, String accHolder,
+			String address) {
+		super();
+		this.accNo = accNo;
+		this.currentBalance = currentBalance;
+		this.accHolder = accHolder;
+		this.address = address;
+	}	
+	abstract double calculateInterest(double amt);
+
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+package com.account;
+
+import java.util.Scanner;
+
+public class Bank {
+
+	
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int accNo;
+		double currentBalance;
+		String accHolder;
+		String address;
+		double intRate;
+		System.out.println("Enter accNo"); accNo=sc.nextInt();
+		System.out.println("Enter CurrentBalance "); currentBalance=sc.nextDouble();
+		
+		if(currentBalance<=0)
+		{
+			try {
+				throw new MinBalanceException();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		else
+		{
+			System.out.println("Enter accHolder"); accHolder=sc.next();
+			System.out.println("Enter address "); address=sc.next();
+			System.out.println("Enter intRate"); intRate=sc.nextDouble();
+			SavingAccount sa=new SavingAccount(accNo,currentBalance, accHolder, address, intRate);
+			
+			System.out.println("Total amount is ");
+			double total=currentBalance+sa.calculateInterest(currentBalance);
+			System.out.println(total);
+		}
+
+	}
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.account;
+
+public class MinBalanceException extends RuntimeException{
+
+	public MinBalanceException() {
+		super("Min Balance Exception");
+		
+	}
+	
+	
+
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+apackage com.account;
+
+public class SavingAccount extends Account {
+	double  intRate ;
+
+	public SavingAccount(int accNo, double currentBalance, String accHolder,
+			String address, double intRate) {
+		super(accNo, currentBalance, accHolder, address);
+		this.intRate = intRate;
+	}
+
+	@Override
+	double calculateInterest(double amt) {
+		
+		return (intRate/100)*amt ;
+	}
+	
+  
+
+   
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+============================================================================================
+15-1. APP & BOOK:
+
+package org.app;
+
+import java.util.Scanner;
+
+import org.book.Book;
+import org.book.Catalog;
+
+public class TestCatalog {
+
+	public static void main(String[] args) {
+		Catalog c = new Catalog(); 
+		Scanner sc = new Scanner(System.in);
+		Book b1= new Book();
+		Book b2= new Book();
+		b1.setTitle("java");
+		b1.setAuthor("rahim");
+		b1.setBookId(1001);
+		b1.setStatus("A");
+		b1.setType("technical");
+		b2.setTitle("python");
+		b2.setAuthor("goutham");
+		b2.setBookId(1002);
+		b2.setStatus("A");
+		b2.setType("technical");
+		c.addBook(b1);
+		c.addBook(b2);
+		
+		/*Book[] b = new Book[2];
+		for(int i=0;i<2;i++){
+			System.out.println("enter title");
+			String s1=sc.next();
+			b[i].setTitle(s1);
+			System.out.println("enter bookid");
+			b[i].setBookId(sc.nextInt());
+			System.out.println("enter author name");
+			b[i].setAuthor(sc.next());
+			System.out.println("enter status");
+			b[i].setStatus(sc.next());
+			System.out.println("enter type");
+			b[i].setType(sc.next());
+			c.addBook(b[i]);
+			}*/
+		c.showBooks();
+		c.searchBook(1001);
+
+	}
+
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+package org.book;
+class InvalidDataException extends RuntimeException{
+	InvalidDataException(String s){
+		super(s);
+	}
+}
+public class Book {
+	private int bookId;
+	private String title;
+	private String author;
+	private String type;
+	private String status;
+	public int getBookId() {
+		return bookId;
+	}
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		InvalidDataException ide2 = new InvalidDataException("incorrect type");
+		if(type.equals("technical")||type.equals("nontechnical"))
+		this.type = type;
+		else
+			throw ide2;
+		
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		InvalidDataException ide1 = new InvalidDataException("incorrect status");
+		if(status.equals("A")||status.equals("N"))
+		this.status = status;
+		else
+			throw ide1;
+		
+	}
+	
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package org.book;
+
+import java.util.ArrayList;
+
+public class Catalog {
+	private ArrayList<Book> books = new ArrayList<Book>(); 
+	public void addBook(Book b){
+		books.add(b);
+	}
+	public void showBooks(){
+		for(int i=0;i<2;i++){
+		System.out.println(books.get(i).getAuthor());
+		System.out.println(books.get(i).getBookId());
+		System.out.println(books.get(i).getStatus());
+		System.out.println(books.get(i).getTitle());
+		System.out.println(books.get(i).getType());
+		System.out.println("-----------------------");
+		
+	}}
+	public String searchBook(int id){
+		int count=0;
+		for(int i=0;i<2;i++){
+			if(books.get(i).getBookId()==id){
+				System.out.println(books.get(i).getAuthor());
+				System.out.println(books.get(i).getBookId());
+				System.out.println(books.get(i).getStatus());
+				System.out.println(books.get(i).getTitle());
+				System.out.println(books.get(i).getType());
+				count++;
+			}
+		}
+		if(count==0)
+				System.out.println("book not present");
+		return null;
+	}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+================================================================================================
+16-1. ORDER:
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.order;
+
+import com.order.Order;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author techm
+ */
+public class Customer {
+    
+  int  customerID;		
+String customerName;				
+
+ ArrayList<Order> orderList = new ArrayList<Order>(2);
+
+    public Customer(int customerID, String customerName) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+    }
+
+public void addNewOrder(Order ob) {
+    orderList.add( ob);           
+}
+public ArrayList getOrderList() {
+    for(int i=0;i<2;i++){
+        System.out.println(orderList.get(i));  
+    }
+    return orderList;
+    
+}
+public void changeOrderStatus (int orderID, String status ) throws InvalidSatusException {
+  for(int i=0;i<2;i++){
+      if(orderList.get(i).getOrderID()==orderID){
+          
+         orderList.get(i).setOrderStatus(status);
+          
+      }
+      else 
+        System.out.println("getting order"); 
+  }
+}
+   
+       public void display(){
+            for(int i=0;i<2;i++){
+                System.out.println("order id"+  orderList.get(i).getOrderID()+"status"+orderList.get(i).getOrderStatus()+"order type"+orderList.get(i).getOrderType()+"order description"+orderList.get(i).getOrderDescription());
+    
+          
+         
+          
+      }
+           
+           
+           
+       }
+   }
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.order;
+
+/**
+ *
+ * @author techm
+ */
+class InvalidSatusException extends Exception {
+
+    public InvalidSatusException() {
+        System.out.println("enter a valid status");
+    }
+    
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.order;
+
+/**
+ *
+ * @author techm
+ */
+public class Order {
+   private int orderID ;		
+private String orderType;				
+private String orderDescription;			
+private String orderStatus;				
+
+    public Order(int orderID, String orderType, String orderDescription) {
+        this.orderID = orderID;
+        this.orderType = orderType;
+        this.orderDescription = orderDescription;
+    }
+
+    public void setOrderStatus(String orderStatus) throws InvalidSatusException {
+        if(orderStatus.equals("Open")||orderStatus.equals("Close")){
+        this.orderStatus = orderStatus;
+    }
+        else
+            throw new InvalidSatusException();    
+    
+}
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public String getOrderDescription() {
+        return orderDescription;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "orderID=" + orderID + ", orderType=" + orderType + ", orderDescription=" + orderDescription + ", orderStatus=" + orderStatus + '}';
+    }
+    
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.order;
+
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author techm
+ */
+public class TestOrder {
+    public static void main(String[] args) throws InvalidSatusException{
+        Scanner s=new Scanner(System.in);
+        System.out.println("enter details of customer cust id cust name");
+        Customer c=new Customer(s.nextInt(),s.next());
+        System.out.println("enter details of order1 orderid type description ");
+        Order O1=new Order(s.nextInt(),s.next(),s.next());
+         System.out.println("enter details of order2 orderid type description ");
+          Order O2=new Order(s.nextInt(),s.next(),s.next());
+          System.out.println("enter order status of order1");
+            O1.setOrderStatus(s.next());
+          System.out.println("enter order status of order1");
+        O2.setOrderStatus(s.next());
+          c.addNewOrder(O1);
+          c.addNewOrder(O2);
+          System.out.println("enter order Id and Status to modify" );
+          c.changeOrderStatus(s.nextInt(),s.next());
+        c.display();
+          
+          
+          
+          
+          
+          
+    }
+    
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+==================================================================================================
+16-2. STORE STUDENT:
+
+package com.student;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class StoreStudent  {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter Student RollNo:");
+		int rollNo=Integer.parseInt(br.readLine());
+		System.out.println("Enter Student Name:");
+		String name=br.readLine();
+		System.out.println("Enter Major:");
+		String major=br.readLine();
+		Student student=new Student();
+		student.setRollNo(rollNo);
+		student.setName(name);
+		student.setMajor(major);
+		String fileName=args[0];
+		FileOutputStream fos=new FileOutputStream(fileName);
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		oos.writeObject(student);
+		FileInputStream fis=new FileInputStream(fileName);
+		ObjectInputStream ois=new ObjectInputStream(fis);
+		Student std=(Student)ois.readObject();
+		System.out.println("RollNo"+"\t"+"Name"+"\t"+"Major");
+		System.out.println(std.getRollNo()+"\t"+std.getName()+"\t"+std.getMajor());
+		
+		
+
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.student;
+
+import java.io.Serializable;
+
+public class Student implements Serializable{
+
+	int rollNo;
+	String name;
+	String major;
+	
+	
+	public int getRollNo() {
+		return rollNo;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public String getMajor() {
+		return major;
+	}
+
+
+	public void setRollNo(int rollNo) {
+		this.rollNo = rollNo;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+===================================================================================================
+17-1. DOCTOR:
+
+package doctor;
+
+
+ 
+public class Appointment {
+   private String date;
+   private int noOfPatients;
+
+    public Appointment(String date, int noOfPatients) {
+        this.date = date;
+        this.noOfPatients = noOfPatients;
+    }
+
+
+    
+    public void setNoOfPatients(int noOfPatients) throws InvalidDataException {
+        if(noOfPatients<16)
+        this.noOfPatients = noOfPatients;
+        else
+            throw new InvalidDataException();
+    }
+
+     public String getDate() {
+        return date;
+    }
+
+    public int getNoOfPatients() {
+        return noOfPatients;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctor;
+
+/**
+ *
+ * @author techm
+ */
+
+import java.util.ArrayList;
+
+ public class Doctor
+    {
+        private String docId;
+private String docName;
+private ArrayList<Appointment> apptList = new ArrayList<Appointment>(2);
+
+
+
+public void addAppointment(Appointment ob){
+  
+      apptList.add(ob);
+    
+}
+
+    public Doctor(String docId, String docName) {
+        this.docId = docId;
+        this.docName = docName;
+    }
+
+public void printAppointment(){
+    for(int i=0;i<2;i++){
+  
+    System.out.println("Doctor id "+apptList.get(i).getDate());
+      System.out.println("no of patients"+apptList.get(i).getNoOfPatients());
+}
+}
+
+        public String getDocId() {
+            return docId;
+        }
+
+        public void setDocId(String docId) {
+            this.docId = docId;
+        }
+
+        public String getDocName() {
+            return docName;
+        }
+
+        public void setDocName(String docName) {
+            this.docName = docName;
+        }
+
+        public ArrayList getApptList() {
+            return apptList;
+        }
+
+        public void setApptList(ArrayList apptList) {
+            this.apptList = apptList;
+            
+        }
+
+
+    }
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctor;
+
+/**
+ *
+ * @author techm
+ */
+public class InvalidDataException extends Exception {
+    public InvalidDataException() {
+        System.out.println("invalid data exception");
+    }
+}
+------------------------------------------------------------------------------------------------------------------
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctor;
+
+
+import java.util.Scanner;
+
+public class TestClinic
+{
+    public static void main(String[] args) throws InvalidDataException
+    {
+         
+          Scanner s=new Scanner(System.in);  
+          Doctor d[]=new Doctor[2];
+          for(int i=0;i<2;i++)
+          {
+              System.out.println("Enter the details of doctor "+i+"Doctor id,doctor name");
+              d[i] = new Doctor(s.next(),s.next());
+              for(int j=0;j<2;j++)
+              {
+                  System.out.println("Enter the details of appointment "+j+" of doctor "+i);
+                  Appointment a = new Appointment(s.next(),s.nextInt());
+                  d[i].addAppointment(a);
+              }
+          }
+         System.out.println("Enter the doc id u want to search");
+         String k = s.next();
+         for(int i=0;i<2;i++)
+         {
+             if(d[i].getDocId().equals(k))
+             {
+                 d[i].printAppointment();
+                 break;
+             }
+         }
+     
+       
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+===============================================================================================
+    
+
+    
+
+
+
+       
+     
+        
+        
+    
+   
+
+
+    
+
+         
+         
+                                                                              
+                                   
+         
+         
+     
+         
+         
+         
+         
+         
+     
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+    
+            
+            
+
+
+    
